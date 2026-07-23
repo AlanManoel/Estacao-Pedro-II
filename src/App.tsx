@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-
-
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+
+import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+
 import { AppRoutes } from './AppRoutes';
 import { Theme } from "./shared/Themes"
 

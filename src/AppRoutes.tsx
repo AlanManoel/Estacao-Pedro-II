@@ -6,7 +6,6 @@ import { Theme } from './shared/Themes';
 
 
 
-
 type TScreenDefinitions = {
     Home: undefined
 }
