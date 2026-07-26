@@ -14,7 +14,7 @@ export const Theme = {
         poppinsBold: "poppinsBold",
     },
     fontSize: {
-        body: 20,
+        body: 16,
         button: 14,
         caption: 12,
 
