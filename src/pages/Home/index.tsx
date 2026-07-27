@@ -7,15 +7,9 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from './styles';
 import { Images } from '@/shared/Assets';
 import { Chip } from '@/shared/Components/Chip';
-
-
-const categories = [
-    "Cachoeiras",
-    "Pontos turísticos",
-    "Eventos",
-    "Hospedagem",
-    "Restaurantes",
-]
+import { Card } from '@/shared/Components/Card';
+import { categories } from "@/data/categories"
+import {tourismData} from '@/data/tourismData'
 
 export const Home = () => {
 
@@ -31,13 +25,13 @@ export const Home = () => {
 
     return (
         <ScrollView>
-            <View style={styles.container}> {/* Container maior da tela */}
+            <View style={styles.container}>
 
-                <View style={styles.header}> {/*Container do header*/}
+                <View style={styles.header}>
 
-                    <View style={styles.containerLogo}> {/* Container da logo */}
+                    <View style={styles.containerLogo}>
                         <Image source={Images.logoBlue} />
-                        <View> {/* Container da titulo */}
+                        <View>
                             <Text style={styles.title}>Bem vindo(a) ao</Text>
                             <Text style={styles.subtitle}>Estação Pedro II</Text>
                         </View>
@@ -62,7 +56,7 @@ export const Home = () => {
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={ styles.categoriesContaine}
+                contentContainerStyle={styles.categoriesContaine}
 
             >
                 {categories.map(category => (
@@ -75,6 +69,21 @@ export const Home = () => {
                 ))}
             </ScrollView>
 
+            <View style={styles.containerCards}>
+
+                {tourismData.map(tourism => (
+                    <Card
+                        key={tourism.id}
+                        image={tourism.image}
+                        title={tourism.name}
+                        distance={tourism.distance}
+                        time={tourism.time}
+                        level={tourism.level}
+                        onPress={() => console.log(tourism)}
+                    />
+                ))}
+
+            </View>
         </ScrollView>
     );
 }
