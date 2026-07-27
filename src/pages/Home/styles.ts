@@ -33,6 +33,13 @@ export const styles = StyleSheet.create({
         marginBottom: 20
     },
     categoriesContaine: {
-        gap: 8, paddingHorizontal: 20
+        gap: 8,
+        paddingHorizontal: 20
     },
+    containerCards: {
+        marginTop: 20,
+        alignItems: "center",
+        gap: 12,
+        marginBottom: 40
+    }
 });
