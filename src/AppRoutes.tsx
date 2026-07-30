@@ -2,12 +2,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, NavigationContainer, NavigationProp } from '@react-navigation/native';
 
 import { Home } from './pages/Home';
+import { DetailsWaterfall } from './pages/DetailsWaterfall'
 import { Theme } from './shared/Themes';
 
 
 
 type TScreenDefinitions = {
-    Home: undefined
+    Home: undefined,
+    DetailsWaterfall: {
+        id: number;
+    };
 }
 
 const Stack = createStackNavigator<TScreenDefinitions>();
@@ -40,6 +44,7 @@ export function AppRoutes() {
 
             <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="DetailsWaterfall" component={DetailsWaterfall} />
             </Stack.Navigator>
 
         </NavigationContainer>
