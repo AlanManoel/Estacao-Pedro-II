@@ -6,5 +6,6 @@ export const Images = {
   saltoLiso: require("./Images/saltoLiso.jpg"),
   urubuRei: require("./Images/urubuRei.jpg"),
   samambaia: require("./Images/samambaia.jpg"),
-  joaoLucas: require("./Images/joaoLucas.png")
+  joaoLucas: require("./Images/joaoLucas.png"),
+  morroDoGritador: require("./Images/morroDoGritador.jpg"),
 };

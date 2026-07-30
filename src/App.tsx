@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { StatusBar } from 'expo-status-bar';
@@ -13,7 +13,7 @@ import { Theme } from "./shared/Themes"
 
 
 export function App() {
-
+  
   const [loaded, error] = useFonts({
     poppinsRegular: Poppins_400Regular,
     poppinsBold: Poppins_700Bold,

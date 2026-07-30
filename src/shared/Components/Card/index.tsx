@@ -7,13 +7,14 @@ import { styles } from "./styles";
 type Props = {
     image: any;
     title: string;
-    distance: string;
-    time: string;
-    level: string;
+    distance?: string;
+    time?: string;
+    level?: string;
+    buttonText?: string;
     onPress: () => void;
 };
 
-export const Card = ({ image, title, distance, time, level, onPress }: Props) => {
+export const Card = ({ image, title, distance, time, buttonText, level, onPress }: Props) => {
     return (
         <View style={styles.container}>
 
@@ -21,18 +22,18 @@ export const Card = ({ image, title, distance, time, level, onPress }: Props) =>
 
                 <Image source={image} style={styles.image} />
 
-                <View style={styles.badge}>
-
-                    <MaterialCommunityIcons
-                        name="signal"
-                        size={14}
-                        color="white"
-                    />
-                    <Text style={styles.badgeText}>
-                        {level}
-                    </Text>
-
-                </View>
+                {level && (
+                    <View style={styles.badge}>
+                        <MaterialCommunityIcons
+                            name="signal"
+                            size={14}
+                            color="white"
+                        />
+                        <Text style={styles.badgeText}>
+                            {level}
+                        </Text>
+                    </View>
+                )}
 
             </View>
 
@@ -44,35 +45,28 @@ export const Card = ({ image, title, distance, time, level, onPress }: Props) =>
 
                 <View style={styles.info}>
 
-                    <View style={styles.infoItem}>
-                        <Feather
-                            name="map"
-                            size={16}
-                            color="#0087F7"
-                        />
-                        <Text style={styles.infoText}>
-                            {distance}
-                        </Text>
-                    </View>
+                    {distance && (
+                        <View style={styles.infoItem}>
+                            <Feather name="map" size={16} color="#0087F7" />
+                            <Text style={styles.infoText}>{distance}</Text>
+                        </View>
+                    )}
 
-                    <View style={styles.infoItem}>
-                        <Feather
-                            name="clock"
-                            size={16}
-                            color="#0087F7"
-                        />
-                        <Text style={styles.infoText}>
-                            {time}
-                        </Text>
-                    </View>
+                    {time && (
+                        <View style={styles.infoItem}>
+                            <Feather name="clock" size={16} color="#0087F7" />
+                            <Text style={styles.infoText}>{time}</Text>
+                        </View>
+                    )}
 
                 </View>
+
 
                 <View style={styles.footer}>
 
                     <TouchableOpacity onPress={onPress}>
                         <Text style={styles.link}>
-                            Ver detalhes da trilha
+                            {buttonText}
                         </Text>
                     </TouchableOpacity>
 

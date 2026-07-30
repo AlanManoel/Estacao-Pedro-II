@@ -14,19 +14,26 @@ import { Chip } from '@/shared/Components/Chip';
 import { Card } from '@/shared/Components/Card';
 import { categories } from "@/data/categories"
 import { waterfalls } from '@/data/waterfalls'
+import { touristAttractions } from '@/data/touristAttractions';
 
 export const Home = () => {
 
     const navigation = useNavigation<TSScreenDefinitionsProps>();
 
-    const [isDark, setIsDark] = useState(false)
+
     const [selectedCategory, setSelectedCategory] = useState(
         categories[0]
     );
 
-    function toggleDark() {
-        //Função de mudar o icone de lua para sol 
-        setIsDark(!isDark);
+    let data: any[] = [];
+    let buttonText = "";
+
+    if (selectedCategory === "Cachoeiras") {
+        data = waterfalls;
+        buttonText = "Ver detalhes da trilha";
+    } else if (selectedCategory === "Pontos turísticos") {
+        data = touristAttractions;
+        buttonText = "Ver detalhes do ponto turístico";
     }
 
     return (
@@ -42,14 +49,6 @@ export const Home = () => {
                             <Text style={styles.subtitle}>Estação Pedro II</Text>
                         </View>
                     </View>
-
-                    <TouchableOpacity onPress={toggleDark}>
-                        {isDark ? (
-                            <Feather name="sun" size={36} color="black" />
-                        ) : (
-                            <FontAwesome name="moon-o" size={40} color="#171717" />
-                        )}
-                    </TouchableOpacity>
 
                 </View>
 
@@ -74,19 +73,19 @@ export const Home = () => {
                     />
                 ))}
             </ScrollView>
-            
-            <View style={styles.containerCards}>
 
-                {waterfalls.map(tourism => (
+            <View style={styles.containerCards}>
+                {data.map(item => (
                     <Card
-                        key={tourism.id}
-                        image={tourism.image}
-                        title={tourism.name}
-                        distance={tourism.distance}
-                        time={tourism.time}
-                        level={tourism.level}
+                        key={item.id}
+                        image={item.image}
+                        title={item.name}
+                        distance={item.distance}
+                        time={item.time}
+                        level={item.level}
+                        buttonText={buttonText}
                         onPress={() =>
-                            navigation.navigate("DetailsWaterfall", { id: tourism.id })
+                            navigation.navigate("DetailsWaterfall", { id: item.id })
                         }
                     />
                 ))}
