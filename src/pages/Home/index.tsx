@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
 
+import { useNavigation } from "@react-navigation/native"
+import { TSScreenDefinitionsProps } from "@/AppRoutes";
+
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Feather } from '@expo/vector-icons';
+
 
 import { styles } from './styles';
 import { Images } from '@/shared/Assets';
 import { Chip } from '@/shared/Components/Chip';
 import { Card } from '@/shared/Components/Card';
 import { categories } from "@/data/categories"
-import {tourismData} from '@/data/tourismData'
+import { waterfalls } from '@/data/waterfalls'
 
 export const Home = () => {
+
+    const navigation = useNavigation<TSScreenDefinitionsProps>();
 
     const [isDark, setIsDark] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState(
@@ -68,10 +74,10 @@ export const Home = () => {
                     />
                 ))}
             </ScrollView>
-
+            
             <View style={styles.containerCards}>
 
-                {tourismData.map(tourism => (
+                {waterfalls.map(tourism => (
                     <Card
                         key={tourism.id}
                         image={tourism.image}
@@ -79,7 +85,9 @@ export const Home = () => {
                         distance={tourism.distance}
                         time={tourism.time}
                         level={tourism.level}
-                        onPress={() => console.log(tourism)}
+                        onPress={() =>
+                            navigation.navigate("DetailsWaterfall", { id: tourism.id })
+                        }
                     />
                 ))}
 
