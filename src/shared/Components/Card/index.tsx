@@ -1,6 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 import { styles } from "./styles";
 
@@ -9,12 +9,13 @@ type Props = {
     title: string;
     distance?: string;
     time?: string;
+    date?: string,
     level?: string;
     buttonText?: string;
     onPress: () => void;
 };
 
-export const Card = ({ image, title, distance, time, buttonText, level, onPress }: Props) => {
+export const Card = ({ image, title, distance, time, date, buttonText, level, onPress }: Props) => {
     return (
         <View style={styles.container}>
 
@@ -56,6 +57,13 @@ export const Card = ({ image, title, distance, time, buttonText, level, onPress 
                         <View style={styles.infoItem}>
                             <Feather name="clock" size={16} color="#0087F7" />
                             <Text style={styles.infoText}>{time}</Text>
+                        </View>
+                    )}
+                    
+                    {date && (
+                        <View style={styles.infoItem}>
+                            <MaterialIcons name="date-range" size={24} color="#0087F7" />
+                            <Text style={styles.infoText}>{date}</Text>
                         </View>
                     )}
 
