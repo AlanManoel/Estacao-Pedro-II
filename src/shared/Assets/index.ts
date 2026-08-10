@@ -8,4 +8,6 @@ export const Images = {
   samambaia: require("./Images/samambaia.jpg"),
   joaoLucas: require("./Images/joaoLucas.png"),
   morroDoGritador: require("./Images/morroDoGritador.jpg"),
+  memorial: require("./Images/memorial.jpg"),
+  festivalInverno: require("./Images/festivalInverno.jpg")
 };
