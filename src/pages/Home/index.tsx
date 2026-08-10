@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, Image } from 'react-native';
 
 import { useNavigation } from "@react-navigation/native"
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
 
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Feather } from '@expo/vector-icons';
 
 
 import { styles } from './styles';
@@ -15,6 +13,7 @@ import { Card } from '@/shared/Components/Card';
 import { categories } from "@/data/categories"
 import { waterfalls } from '@/data/waterfalls'
 import { touristAttractions } from '@/data/touristAttractions';
+import { events } from '@/data/event';
 
 export const Home = () => {
 
@@ -34,6 +33,9 @@ export const Home = () => {
     } else if (selectedCategory === "Pontos turísticos") {
         data = touristAttractions;
         buttonText = "Ver detalhes do ponto turístico";
+    } else if (selectedCategory === "Eventos") {
+        data = events;
+        buttonText = "Ver detalhes dos eventos";
     }
 
     return (
@@ -82,6 +84,7 @@ export const Home = () => {
                         title={item.name}
                         distance={item.distance}
                         time={item.time}
+                        date={item.date}
                         level={item.level}
                         buttonText={buttonText}
                         onPress={() =>
