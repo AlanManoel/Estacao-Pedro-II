@@ -12,23 +12,19 @@ export const touristAttractions = [
             longitude: -41.447875520857295,
         },
 
-        duration: "10 minutos",
-
         description:
             "O Morro do Gritador, em Pedro II (PI), é um mirante famoso por suas vistas panorâmicas das serras e cânions. O local combina natureza, clima agradável e uma das paisagens mais bonitas da região.",
 
         photos: [
-            //   Images.miranteGritador1,
-            //   Images.miranteGritador2,
-            //   Images.miranteGritador3,
+            Images.morroDoGritador,
+            Images.morroDoGritador2,
+            Images.morroDoGritador3
         ],
 
         tips:
             "No fim da tarde para aproveitar o pôr do sol. Aproveite para experimentar a culinária local. Leve câmera ou celular para boas fotos da paisagem.",
 
-        openingHours: "08:00 às 17:00",
-
-        price: "Entrada gratuita",
+        howToGet: "Para aproveitar melhor a visita e garantir que você chegue sem problemas, entre em contato com os guias locais. Eles podem dar todas as informações sobre a localização."
     },
     {
         id: 2,
