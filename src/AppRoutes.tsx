@@ -3,6 +3,7 @@ import { DefaultTheme, NavigationContainer, NavigationProp } from '@react-naviga
 
 import { Home } from './pages/Home';
 import { DetailsWaterfall } from './pages/DetailsWaterfall'
+import { DetailsAttraction } from './pages/DetailsAttraction'
 import { Theme } from './shared/Themes';
 
 
@@ -11,6 +12,9 @@ type TScreenDefinitions = {
     Home: undefined,
     DetailsWaterfall: {
         id: number;
+    };
+    DetailsAttraction: {
+        id: number
     };
 }
 
@@ -45,6 +49,7 @@ export function AppRoutes() {
             <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="DetailsWaterfall" component={DetailsWaterfall} />
+                <Stack.Screen name='DetailsAttraction' component={DetailsAttraction} />
             </Stack.Navigator>
 
         </NavigationContainer>

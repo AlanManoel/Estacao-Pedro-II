@@ -8,8 +8,8 @@ export const touristAttractions = [
         image: Images.morroDoGritador,
 
         location: {
-            latitude: -4.4255,
-            longitude: -41.4587,
+            latitude: -4.331104320883757,
+            longitude: -41.447875520857295,
         },
 
         duration: "10 minutos",
@@ -37,8 +37,8 @@ export const touristAttractions = [
         image: Images.memorial,
 
         location: {
-            latitude: -4.4255,
-            longitude: -41.4587,
+            latitude: -4.4265230057590395,
+            longitude: -41.459379908790176,
         },
 
         duration: "10 minutos",

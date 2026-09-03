@@ -87,10 +87,13 @@ export const Home = () => {
                         date={item.date}
                         level={item.level}
                         buttonText={buttonText}
-                        onPress={() =>
-                            navigation.navigate("DetailsWaterfall", { id: item.id })
-                        }
-                    />
+                        onPress={() => {
+                            if (selectedCategory === "Cachoeiras") {
+                                navigation.navigate("DetailsWaterfall", { id: item.id });
+                            } else if (selectedCategory === "Pontos turísticos") {
+                                navigation.navigate("DetailsAttraction", { id: item.id });
+                            }
+                        }} />
                 ))}
 
             </View>
