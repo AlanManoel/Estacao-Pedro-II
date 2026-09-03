@@ -9,6 +9,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { touristAttractions } from "@/data/touristAttractions";
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
 import { styles } from "./styles";
+import { guides } from "@/data/guides";
+import { GuideCards } from "@/shared/Components/GuideCards";
 
 
 
@@ -62,8 +64,46 @@ export const DetailsAttraction = () => {
 
             <View style={styles.containerDescription}>
                 <Text style={styles.title}>{tourism?.name}</Text>
-                <Text>Fotos</Text>
+                <Text style={styles.subitleTextCard}>Fotos</Text>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.photosContainer}>
+                    {tourism?.photos.map((photo, index) => (
+                        <Image
+                            key={index}
+                            source={photo}
+                            style={styles.photo}
+                        />
+                    ))}
+                </ScrollView>
+
+
+                <View style={styles.containerInfo}>
+                    <View>
+                        <Text style={styles.titleInfo}>Descrição:</Text>
+                        <Text style={styles.subitleTextInfo}>{tourism?.description}</Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles.titleInfo}>Dicas e cuidado:</Text>
+                        <Text style={styles.subitleTextInfo}>{tourism?.tips}</Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles.titleInfo}>Como chegar:</Text>
+                        <Text style={styles.subitleTextInfo}>{tourism?.howToGet}</Text>
+                        {guides.map((guide) => (
+                            <GuideCards
+                                key={guide.id}
+                                name={guide.name}
+                                image={guide.image}
+                            />
+                        ))}
+                    </View>
+                </View>
             </View>
+
 
         </ScrollView>
     );

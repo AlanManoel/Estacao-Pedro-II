@@ -7,28 +7,12 @@ export const styles = StyleSheet.create({
     imageContainer: {
         position: "relative",
     },
-    image: {
-        width: "100%",
-        height: 400,
-    },
     gradient: {
         position: "absolute",
         left: 0,
         right: 0,
         bottom: 0,
-        height: 120,
-    },
-    title: {
-        fontFamily: Theme.fonts.poppinsBold,
-        fontSize: Theme.fontSize.h3,
-        color: Theme.colors.neutralBlack,
-        lineHeight: 40,
-        maxWidth: 340,
-    },
-    containerDescription: {
-        marginTop: 20,
-        marginBottom: 40,
-        paddingHorizontal: 20,
+        height: 200,
     },
     buttonBack: {
         position: "absolute",
@@ -42,45 +26,34 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    containerCards: {
-        marginTop: 24,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 24
+    map: {
+        width: "100%",
+        height: 400,
     },
-    cardsInfo: {
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 20,
-        backgroundColor: Theme.colors.neutralWhite,
-        height: 100,
-        width: 100,
-        borderWidth: 1,
-        borderColor: "rgba(255,255,255,0.7)",
-        shadowColor: "#A9A9B8",
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 10,
-        elevation: 6,
+    title: {
+        fontFamily: Theme.fonts.poppinsBold,
+        fontSize: Theme.fontSize.h3,
+        color: Theme.colors.neutralBlack,
+        lineHeight: 40,
+        maxWidth: 340,
+    },
+    containerDescription: {
+        marginTop: 20,
+        marginBottom: 20,
+        paddingHorizontal: 20,
     },
     subitleTextCard: {
+        marginTop: 12,
         fontFamily: Theme.fonts.poppinsRegular,
-        fontSize: Theme.fontSize.caption
+        fontSize: Theme.fontSize.h6
     },
-    textCard: {
-        fontFamily: Theme.fonts.poppinsBold,
-        fontSize: Theme.fontSize.h5,
-        textAlign: "center",
-        lineHeight: 28
+    photosContainer: {
+        gap: 12,
     },
-    containerInfo: {
-        marginTop: 24,
-        marginBottom: 24,
-        gap: 24
+    photo: {
+        width: 311,
+        height: 311,
+        borderRadius: 5,
     },
     titleInfo: {
         fontFamily: Theme.fonts.poppinsBold,
@@ -90,8 +63,9 @@ export const styles = StyleSheet.create({
         fontFamily: Theme.fonts.poppinsRegular,
         fontSize: Theme.fontSize.body
     },
-    map: {
-        width: "100%",
-        height: 400,
+    containerInfo: {
+        marginTop: 24,
+        marginBottom: 24,
+        gap: 24
     },
 })

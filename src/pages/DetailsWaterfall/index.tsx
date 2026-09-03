@@ -6,9 +6,9 @@ import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { waterfalls } from "@/data/waterfalls";
-import { waterfallInfo } from "@/data/common"
+import { waterfallInfo } from "@/data/common";
+import { guides } from "@/data/guides";
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
-import { guides } from "@/data/guides"
 import { styles } from "./styles";
 import { GuideCards } from "@/shared/Components/GuideCards";
 
@@ -60,6 +60,7 @@ export const DetailsWaterfall = () => {
                     <View style={styles.cardsInfo}>
                         <Text style={styles.subitleTextCard}>Nível</Text>
                         <Text style={styles.textCard}>{tourism?.level}</Text>
+                        
                     </View>
                 </View>
 
