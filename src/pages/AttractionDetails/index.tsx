@@ -11,7 +11,7 @@ import { getAttraction, imageUrl, TRAIL_LEVEL_LABEL } from "@/services/attractio
 import { Button } from "@/shared/Components/Button";
 import { GuideCards } from "@/shared/Components/GuideCards";
 import { Theme } from "@/shared/Themes";
-import { styles } from "./styles";
+import { detailsStyles as styles } from "../details.styles";
 
 type Section = { title: string; text: string | null };
 

@@ -4,6 +4,8 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { useAuth } from '@/contexts/AuthContext';
 import { Home } from './pages/Home';
 import { AttractionDetails } from './pages/AttractionDetails';
+import { EventDetails } from './pages/EventDetails';
+import { AdminMenu } from './pages/admin/AdminMenu';
 import { AdminAttractions } from './pages/admin/AdminAttractions';
 import { AdminAttractionForm } from './pages/admin/AdminAttractionForm';
 import { AdminAttractionPhotos } from './pages/admin/AdminAttractionPhotos';
@@ -20,6 +22,8 @@ type TScreenDefinitions = {
     SignUp: undefined;
     Home: undefined;
     AttractionDetails: { id: string };
+    EventDetails: { id: string };
+    AdminMenu: undefined;
     AdminAttractions: undefined;
     AdminAttractionForm: { id?: string };
     AdminAttractionPhotos: { id: string };
@@ -62,8 +66,10 @@ export function AppRoutes() {
                     <>
                         <Stack.Screen name="Home" component={Home} />
                         <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
+                        <Stack.Screen name="EventDetails" component={EventDetails} />
                         {user?.role === "ADMIN" && (
                             <>
+                                <Stack.Screen name="AdminMenu" component={AdminMenu} />
                                 <Stack.Screen name="AdminAttractions" component={AdminAttractions} />
                                 <Stack.Screen name="AdminAttractionForm" component={AdminAttractionForm} />
                                 <Stack.Screen name="AdminAttractionPhotos" component={AdminAttractionPhotos} />

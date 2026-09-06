@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { Theme } from "@/shared/Themes";
 
-export const styles = StyleSheet.create({
+export const detailsStyles = StyleSheet.create({
     center: {
         flex: 1,
         alignItems: "center",
@@ -99,5 +99,15 @@ export const styles = StyleSheet.create({
     sectionText: {
         fontFamily: Theme.fonts.poppinsRegular,
         fontSize: Theme.fontSize.body,
+    },
+    period: {
+        fontFamily: Theme.fonts.poppinsBold,
+        fontSize: Theme.fontSize.body,
+        color: Theme.colors.primary500,
+    },
+    periodNote: {
+        fontFamily: Theme.fonts.poppinsRegular,
+        fontSize: Theme.fontSize.button,
+        color: "#6B6B7B",
     },
 });
