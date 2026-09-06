@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { ScrollView, Text, View, Image } from 'react-native';
+import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native"
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
+import { useAuth } from '@/contexts/AuthContext';
+import { Theme } from '@/shared/Themes';
 
 
 
@@ -18,6 +21,7 @@ import { events } from '@/data/event';
 export const Home = () => {
 
     const navigation = useNavigation<TSScreenDefinitionsProps>();
+    const { user, signOut } = useAuth();
 
 
     const [selectedCategory, setSelectedCategory] = useState(
@@ -47,10 +51,14 @@ export const Home = () => {
                     <View style={styles.containerLogo}>
                         <Image source={Images.logoBlue} />
                         <View>
-                            <Text style={styles.title}>Bem vindo(a) ao</Text>
+                            <Text style={styles.title}>Bem vindo(a){user ? `, ${user.name}` : ""}</Text>
                             <Text style={styles.subtitle}>Estação Pedro II</Text>
                         </View>
                     </View>
+
+                    <TouchableOpacity style={styles.signOut} onPress={signOut} accessibilityLabel="Sair">
+                        <Feather name="log-out" size={22} color={Theme.colors.primary500} />
+                    </TouchableOpacity>
 
                 </View>
 

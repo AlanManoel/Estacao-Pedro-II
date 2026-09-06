@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 12,
     },
+    signOut: {
+        width: 44,
+        height: 44,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     title: {
         fontSize: Theme.fontSize.body,
         fontFamily: Theme.fonts.poppinsRegular,
