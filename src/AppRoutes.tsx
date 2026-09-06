@@ -30,11 +30,11 @@ export function AppRoutes() {
                         ...DefaultTheme.fonts,
                         regular: {
                             fontFamily: Theme.fonts.poppinsRegular,
-                            fontWeight: "700"
+                            fontWeight: "400"
                         },
                         bold: {
                             fontFamily: Theme.fonts.poppinsBold,
-                            fontWeight: "400"
+                            fontWeight: "700"
                         }
                     },
                     colors: {
