@@ -136,7 +136,7 @@ export const AdminAttractionForm = () => {
                 navigation.goBack();
             } else {
                 const created = await createAttraction(type, input);
-                navigation.replace("AdminAttractionPhotos", { id: created.id });
+                navigation.replace("AdminPhotos", { kind: "attraction", id: created.id });
             }
         } catch (err) {
             if (err instanceof ApiError && err.details.length > 0) {

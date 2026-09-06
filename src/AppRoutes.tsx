@@ -8,7 +8,9 @@ import { EventDetails } from './pages/EventDetails';
 import { AdminMenu } from './pages/admin/AdminMenu';
 import { AdminAttractions } from './pages/admin/AdminAttractions';
 import { AdminAttractionForm } from './pages/admin/AdminAttractionForm';
-import { AdminAttractionPhotos } from './pages/admin/AdminAttractionPhotos';
+import { AdminPhotos } from './pages/admin/AdminPhotos';
+import { AdminEvents } from './pages/admin/AdminEvents';
+import { AdminEventForm } from './pages/admin/AdminEventForm';
 import { Welcome } from './pages/Welcome';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
@@ -26,7 +28,9 @@ type TScreenDefinitions = {
     AdminMenu: undefined;
     AdminAttractions: undefined;
     AdminAttractionForm: { id?: string };
-    AdminAttractionPhotos: { id: string };
+    AdminPhotos: { kind: "attraction" | "event"; id: string };
+    AdminEvents: undefined;
+    AdminEventForm: { id?: string };
 }
 
 const Stack = createStackNavigator<TScreenDefinitions>();
@@ -72,7 +76,9 @@ export function AppRoutes() {
                                 <Stack.Screen name="AdminMenu" component={AdminMenu} />
                                 <Stack.Screen name="AdminAttractions" component={AdminAttractions} />
                                 <Stack.Screen name="AdminAttractionForm" component={AdminAttractionForm} />
-                                <Stack.Screen name="AdminAttractionPhotos" component={AdminAttractionPhotos} />
+                                <Stack.Screen name="AdminPhotos" component={AdminPhotos} />
+                                <Stack.Screen name="AdminEvents" component={AdminEvents} />
+                                <Stack.Screen name="AdminEventForm" component={AdminEventForm} />
                             </>
                         )}
                     </>

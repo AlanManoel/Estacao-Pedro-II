@@ -12,14 +12,33 @@ import {
     uploadPhoto,
     type AttractionPhoto,
 } from "@/services/attractionsApi";
+import { deleteEventPhoto, getEvent, setEventCover, uploadEventPhoto } from "@/services/eventsApi";
 import { Button } from "@/shared/Components/Button";
 import { ScreenHeader } from "@/shared/Components/ScreenHeader";
 import { Theme } from "@/shared/Themes";
 import { adminStyles as styles } from "../styles";
 
-export const AdminAttractionPhotos = () => {
-    const { id } = useRoute().params as { id: string };
-    const { data: attraction, loading, error, reload } = useRequest(() => getAttraction(id), [id]);
+export type PhotoOwnerKind = "attraction" | "event";
+
+type OwnerDetail = { name: string; coverUrl: string | null; photos: AttractionPhoto[] };
+
+type PhotoSource = {
+    get: (id: string) => Promise<OwnerDetail>;
+    upload: (id: string, uri: string, mimeType: string, fileName: string) => Promise<unknown>;
+    remove: (id: string, photoId: string) => Promise<void>;
+    setCover: (id: string, photoId: string) => Promise<unknown>;
+};
+
+const SOURCES: Record<PhotoOwnerKind, PhotoSource> = {
+    attraction: { get: getAttraction, upload: uploadPhoto, remove: deletePhoto, setCover },
+    event: { get: getEvent, upload: uploadEventPhoto, remove: deleteEventPhoto, setCover: setEventCover },
+};
+
+export const AdminPhotos = () => {
+    const { kind, id } = useRoute().params as { kind: PhotoOwnerKind; id: string };
+    const source = SOURCES[kind];
+
+    const { data: owner, loading, error, reload } = useRequest(() => source.get(id), [kind, id]);
     const [busy, setBusy] = useState(false);
     const [actionError, setActionError] = useState<string | null>(null);
 
@@ -48,20 +67,20 @@ export const AdminAttractionPhotos = () => {
         const asset = result.assets[0];
         const mimeType = asset.mimeType ?? "image/jpeg";
         const fileName = asset.fileName ?? `foto.${mimeType.split("/")[1] ?? "jpg"}`;
-        await run(() => uploadPhoto(id, asset.uri, mimeType, fileName));
+        await run(() => source.upload(id, asset.uri, mimeType, fileName));
     }
 
     function openActions(photo: AttractionPhoto) {
-        const isCover = attraction?.coverUrl === photo.url;
+        const isCover = owner?.coverUrl === photo.url;
         Alert.alert("Foto", isCover ? "Esta é a capa." : undefined, [
-            ...(isCover ? [] : [{ text: "Definir como capa", onPress: () => run(() => setCover(id, photo.id)) }]),
+            ...(isCover ? [] : [{ text: "Definir como capa", onPress: () => run(() => source.setCover(id, photo.id)) }]),
             {
                 text: "Remover",
                 style: "destructive" as const,
                 onPress: () =>
                     Alert.alert("Remover foto", "Remover esta foto? Isso não pode ser desfeito.", [
                         { text: "Cancelar", style: "cancel" },
-                        { text: "Remover", style: "destructive", onPress: () => run(() => deletePhoto(id, photo.id)) },
+                        { text: "Remover", style: "destructive", onPress: () => run(() => source.remove(id, photo.id)) },
                     ]),
             },
             { text: "Cancelar", style: "cancel" as const },
@@ -70,7 +89,7 @@ export const AdminAttractionPhotos = () => {
 
     return (
         <View style={styles.screen}>
-            <ScreenHeader title={attraction ? `Fotos: ${attraction.name}` : "Fotos"} />
+            <ScreenHeader title={owner ? `Fotos: ${owner.name}` : "Fotos"} />
             <ScrollView contentContainerStyle={styles.content}>
                 <Button title="Adicionar foto" onPress={pickAndUpload} loading={busy} />
 
@@ -83,13 +102,13 @@ export const AdminAttractionPhotos = () => {
                     </View>
                 )}
 
-                {attraction && attraction.photos.length === 0 && !loading && (
+                {owner && owner.photos.length === 0 && !loading && (
                     <Text style={styles.feedbackText}>Nenhuma foto ainda. A primeira enviada vira a capa.</Text>
                 )}
 
                 <View style={styles.photoGrid}>
-                    {attraction?.photos.map((photo) => {
-                        const isCover = attraction.coverUrl === photo.url;
+                    {owner?.photos.map((photo) => {
+                        const isCover = owner.coverUrl === photo.url;
                         return (
                             <TouchableOpacity key={photo.id} style={styles.photoTile} onPress={() => openActions(photo)}>
                                 <Image source={{ uri: imageUrl(photo.url) }} style={styles.photoImage} />
