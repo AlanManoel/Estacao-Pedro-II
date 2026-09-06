@@ -2,6 +2,10 @@ import { session, type Tokens } from "./session";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
+if (!BASE_URL) {
+    throw new Error("EXPO_PUBLIC_API_URL não definida. Copie .env.example para .env.");
+}
+
 export type Role = "ADMIN" | "TOURIST";
 
 export type User = { id: string; name: string; email: string; role: Role };
@@ -37,7 +41,7 @@ async function rawRequest<T>(path: string, options: Options, token: string | nul
 
     if (res.status === 204) return undefined as T;
 
-    const data = await res.json();
+    const data = await res.json().catch(() => null);
     if (!res.ok) {
         throw new ApiError(
             res.status,
@@ -48,7 +52,7 @@ async function rawRequest<T>(path: string, options: Options, token: string | nul
     return data as T;
 }
 
-export async function refreshSession(): Promise<AuthResponse | null> {
+async function doRefresh(): Promise<AuthResponse | null> {
     const refreshToken = await session.getRefreshToken();
     if (!refreshToken) return null;
     try {
@@ -63,6 +67,19 @@ export async function refreshSession(): Promise<AuthResponse | null> {
         await session.clear();
         return null;
     }
+}
+
+let refreshInFlight: Promise<AuthResponse | null> | null = null;
+
+// O servidor rotaciona o refresh token a cada uso. Requests concorrentes que recebem 401
+// precisam compartilhar um único refresh, senão o segundo usaria um token já invalidado.
+export function refreshSession(): Promise<AuthResponse | null> {
+    if (!refreshInFlight) {
+        refreshInFlight = doRefresh().finally(() => {
+            refreshInFlight = null;
+        });
+    }
+    return refreshInFlight;
 }
 
 export async function api<T>(path: string, options: Options = {}): Promise<T> {

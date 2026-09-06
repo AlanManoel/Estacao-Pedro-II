@@ -21,13 +21,22 @@ export async function signIn(email: string, password: string): Promise<User> {
     return result.user;
 }
 
+async function revoke(refreshToken: string): Promise<void> {
+    await api<void>("/api/v1/auth/logout", { method: "POST", body: { refreshToken } });
+}
+
 export async function signOut(): Promise<void> {
     const refreshToken = await session.getRefreshToken();
     if (refreshToken) {
         try {
-            await api<void>("/api/v1/auth/logout", { method: "POST", body: { refreshToken } });
+            await revoke(refreshToken);
         } catch {
-            // sem rede ou token já inválido: a sessão local é limpa mesmo assim
+            // Se o access token expirou, o cliente fez um refresh e rotacionou o token.
+            // Revoga o token atual; se ainda falhar (sem rede), a sessão local é limpa mesmo assim.
+            const current = await session.getRefreshToken();
+            if (current && current !== refreshToken) {
+                await revoke(current).catch(() => undefined);
+            }
         }
     }
     await session.clear();
