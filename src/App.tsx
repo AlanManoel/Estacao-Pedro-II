@@ -7,6 +7,7 @@ import { useFonts } from 'expo-font';
 
 import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
+import { AuthProvider } from "@/contexts/AuthContext";
 import { AppRoutes } from './AppRoutes';
 import { Theme } from "./shared/Themes"
 
@@ -30,9 +31,11 @@ export function App() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Theme.colors.neutralWhite }}>
-      <StatusBar style="light" />
-      <AppRoutes />
-    </SafeAreaView>
+    <AuthProvider>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Theme.colors.neutralWhite }}>
+        <StatusBar style="light" />
+        <AppRoutes />
+      </SafeAreaView>
+    </AuthProvider>
   );
 }
