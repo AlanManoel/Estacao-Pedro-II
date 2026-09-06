@@ -1,11 +1,11 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View, type ImageSourcePropType } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 import { styles } from "./styles";
 
 type Props = {
-    image: any;
+    image?: ImageSourcePropType;
     title: string;
     distance?: string;
     time?: string;
@@ -21,7 +21,13 @@ export const Card = ({ image, title, distance, time, date, buttonText, level, on
 
             <View style={styles.imageContainer}>
 
-                <Image source={image} style={styles.image} />
+                {image ? (
+                    <Image source={image} style={styles.image} />
+                ) : (
+                    <View style={[styles.image, styles.imagePlaceholder]}>
+                        <Feather name="image" size={40} color="#A9A9B8" />
+                    </View>
+                )}
 
                 {level && (
                     <View style={styles.badge}>

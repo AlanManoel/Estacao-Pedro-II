@@ -1,8 +1,8 @@
 import { session, type Tokens } from "./session";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+export const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 
-if (!BASE_URL) {
+if (!API_URL) {
     throw new Error("EXPO_PUBLIC_API_URL não definida. Copie .env.example para .env.");
 }
 
@@ -12,11 +12,14 @@ export type User = { id: string; name: string; email: string; role: Role };
 
 export type AuthResponse = Tokens & { user: User };
 
+export type ApiErrorDetail = { path: string; message: string };
+
 export class ApiError extends Error {
     constructor(
         public readonly status: number,
         public readonly code: string,
         message: string,
+        public readonly details: ApiErrorDetail[] = [],
     ) {
         super(message);
         this.name = "ApiError";
@@ -30,13 +33,19 @@ type Options = {
 };
 
 async function rawRequest<T>(path: string, options: Options, token: string | null): Promise<T> {
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const isForm = options.body instanceof FormData;
+    const headers: Record<string, string> = {};
+    if (!isForm) headers["Content-Type"] = "application/json";
     if (token) headers.Authorization = `Bearer ${token}`;
 
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetch(`${API_URL}${path}`, {
         method: options.method ?? "GET",
         headers,
-        body: options.body === undefined ? undefined : JSON.stringify(options.body),
+        body: isForm
+            ? (options.body as FormData)
+            : options.body === undefined
+              ? undefined
+              : JSON.stringify(options.body),
     });
 
     if (res.status === 204) return undefined as T;
@@ -47,6 +56,7 @@ async function rawRequest<T>(path: string, options: Options, token: string | nul
             res.status,
             data?.error?.code ?? "UNKNOWN",
             data?.error?.message ?? "Erro inesperado",
+            data?.error?.details ?? [],
         );
     }
     return data as T;
