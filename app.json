@@ -28,7 +28,8 @@
     },
     "plugins": [
       "expo-font",
-      "expo-maps"
+      "expo-maps",
+      "expo-secure-store"
     ]
   }
 }
