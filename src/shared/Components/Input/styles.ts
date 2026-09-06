@@ -22,4 +22,17 @@ export const styles = StyleSheet.create({
         fontSize: Theme.fontSize.body,
         color: Theme.colors.neutralBlack,
     },
+    multiline: {
+        height: 120,
+        paddingTop: 12,
+        textAlignVertical: "top",
+    },
+    inputError: {
+        borderColor: "#C62828",
+    },
+    error: {
+        fontFamily: Theme.fonts.poppinsRegular,
+        fontSize: Theme.fontSize.caption,
+        color: "#C62828",
+    },
 });
