@@ -1,10 +1,12 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { DefaultTheme, NavigationContainer, NavigationProp } from '@react-navigation/native';
+import { createStackNavigator, type StackNavigationProp } from '@react-navigation/stack';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Home } from './pages/Home';
-import { DetailsWaterfall } from './pages/DetailsWaterfall'
-import { DetailsAttraction } from './pages/DetailsAttraction'
+import { AttractionDetails } from './pages/AttractionDetails';
+import { AdminAttractions } from './pages/admin/AdminAttractions';
+import { AdminAttractionForm } from './pages/admin/AdminAttractionForm';
+import { AdminAttractionPhotos } from './pages/admin/AdminAttractionPhotos';
 import { Welcome } from './pages/Welcome';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
@@ -16,13 +18,11 @@ type TScreenDefinitions = {
     Welcome: undefined;
     SignIn: undefined;
     SignUp: undefined;
-    Home: undefined,
-    DetailsWaterfall: {
-        id: number;
-    };
-    DetailsAttraction: {
-        id: number
-    };
+    Home: undefined;
+    AttractionDetails: { id: string };
+    AdminAttractions: undefined;
+    AdminAttractionForm: { id?: string };
+    AdminAttractionPhotos: { id: string };
 }
 
 const Stack = createStackNavigator<TScreenDefinitions>();
@@ -61,8 +61,14 @@ export function AppRoutes() {
                 {hasSession ? (
                     <>
                         <Stack.Screen name="Home" component={Home} />
-                        <Stack.Screen name="DetailsWaterfall" component={DetailsWaterfall} />
-                        <Stack.Screen name='DetailsAttraction' component={DetailsAttraction} />
+                        <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
+                        {user?.role === "ADMIN" && (
+                            <>
+                                <Stack.Screen name="AdminAttractions" component={AdminAttractions} />
+                                <Stack.Screen name="AdminAttractionForm" component={AdminAttractionForm} />
+                                <Stack.Screen name="AdminAttractionPhotos" component={AdminAttractionPhotos} />
+                            </>
+                        )}
                     </>
                 ) : (
                     <>
@@ -76,4 +82,4 @@ export function AppRoutes() {
     );
 }
 
-export type TSScreenDefinitionsProps = NavigationProp<TScreenDefinitions>
+export type TSScreenDefinitionsProps = StackNavigationProp<TScreenDefinitions>
