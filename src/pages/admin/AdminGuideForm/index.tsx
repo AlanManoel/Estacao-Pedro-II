@@ -43,6 +43,9 @@ export const AdminGuideForm = () => {
     const [selectedIds, setSelectedIds] = useState<string[] | null>(null);
     const [photoUrl, setPhotoUrl] = useState<string | null>(null);
     const [pendingPhoto, setPendingPhoto] = useState<PendingPhoto | null>(null);
+    // Id do guia criado nesta tela. Se o upload da foto falhar depois de criar,
+    // uma nova tentativa atualiza esse guia em vez de criar outro.
+    const [createdId, setCreatedId] = useState<string | null>(null);
     const [loading, setLoading] = useState(isEditing);
     const [saving, setSaving] = useState(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -100,7 +103,9 @@ export const AdminGuideForm = () => {
         setError(null);
         setFieldErrors({});
         try {
-            const saved = id ? await updateGuide(id, input) : await createGuide(input);
+            const targetId = id ?? createdId;
+            const saved = targetId ? await updateGuide(targetId, input) : await createGuide(input);
+            setCreatedId(saved.id);
             if (pendingPhoto) {
                 await uploadGuidePhoto(saved.id, pendingPhoto.uri, pendingPhoto.mimeType, pendingPhoto.fileName);
             }
