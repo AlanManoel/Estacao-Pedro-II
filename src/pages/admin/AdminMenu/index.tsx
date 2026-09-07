@@ -11,6 +11,7 @@ const ITEMS = [
     { title: "Atrações", subtitle: "Cachoeiras e pontos turísticos", icon: "map-pin", route: "AdminAttractions" },
     { title: "Eventos", subtitle: "Festivais e programação", icon: "calendar", route: "AdminEvents" },
     { title: "Guias", subtitle: "Guias locais e contatos", icon: "users", route: "AdminGuides" },
+    { title: "Estabelecimentos", subtitle: "Hospedagens e restaurantes", icon: "home", route: "AdminEstablishments" },
 ] as const;
 
 export const AdminMenu = () => {

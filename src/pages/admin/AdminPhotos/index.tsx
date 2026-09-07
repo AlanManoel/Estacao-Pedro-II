@@ -13,12 +13,18 @@ import {
     type AttractionPhoto,
 } from "@/services/attractionsApi";
 import { deleteEventPhoto, getEvent, setEventCover, uploadEventPhoto } from "@/services/eventsApi";
+import {
+    deleteEstablishmentPhoto,
+    getEstablishment,
+    setEstablishmentCover,
+    uploadEstablishmentPhoto,
+} from "@/services/establishmentsApi";
 import { Button } from "@/shared/Components/Button";
 import { ScreenHeader } from "@/shared/Components/ScreenHeader";
 import { Theme } from "@/shared/Themes";
 import { adminStyles as styles } from "../styles";
 
-export type PhotoOwnerKind = "attraction" | "event";
+export type PhotoOwnerKind = "attraction" | "event" | "establishment";
 
 type OwnerDetail = { name: string; coverUrl: string | null; photos: AttractionPhoto[] };
 
@@ -32,6 +38,12 @@ type PhotoSource = {
 const SOURCES: Record<PhotoOwnerKind, PhotoSource> = {
     attraction: { get: getAttraction, upload: uploadPhoto, remove: deletePhoto, setCover },
     event: { get: getEvent, upload: uploadEventPhoto, remove: deleteEventPhoto, setCover: setEventCover },
+    establishment: {
+        get: getEstablishment,
+        upload: uploadEstablishmentPhoto,
+        remove: deleteEstablishmentPhoto,
+        setCover: setEstablishmentCover,
+    },
 };
 
 export const AdminPhotos = () => {
