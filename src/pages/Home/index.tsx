@@ -12,6 +12,7 @@ import {
     TRAIL_LEVEL_LABEL,
     type AttractionType,
 } from '@/services/attractionsApi';
+import { listEstablishments, PRICE_RANGE_LABEL, type EstablishmentType } from '@/services/establishmentsApi';
 import { formatPeriod, listEvents } from '@/services/eventsApi';
 import { Theme } from '@/shared/Themes';
 
@@ -27,6 +28,19 @@ const CATEGORY_TYPE: Record<string, AttractionType | undefined> = {
     "Pontos turísticos": "PONTO_TURISTICO",
 };
 
+const CATEGORY_ESTABLISHMENT_TYPE: Record<string, EstablishmentType | undefined> = {
+    "Hospedagem": "HOSPEDAGEM",
+    "Restaurantes": "RESTAURANTE",
+};
+
+const EMPTY_TEXT: Record<string, string> = {
+    "Cachoeiras": "Nenhuma cachoeira cadastrada ainda.",
+    "Pontos turísticos": "Nenhum ponto turístico cadastrado ainda.",
+    "Eventos": "Nenhum evento programado.",
+    "Hospedagem": "Nenhuma hospedagem cadastrada ainda.",
+    "Restaurantes": "Nenhum restaurante cadastrado ainda.",
+};
+
 export const Home = () => {
 
     const navigation = useNavigation<TSScreenDefinitionsProps>();
@@ -35,6 +49,7 @@ export const Home = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(categories[0]);
     const type = CATEGORY_TYPE[selectedCategory];
+    const establishmentType = CATEGORY_ESTABLISHMENT_TYPE[selectedCategory];
     const isEvents = selectedCategory === "Eventos";
 
     const attractions = useRequest(
@@ -45,8 +60,12 @@ export const Home = () => {
         () => (isEvents ? listEvents() : Promise.resolve([])),
         [isEvents],
     );
+    const establishments = useRequest(
+        () => (establishmentType ? listEstablishments(establishmentType) : Promise.resolve([])),
+        [establishmentType],
+    );
 
-    const active = type ? attractions : isEvents ? events : null;
+    const active = type ? attractions : isEvents ? events : establishmentType ? establishments : null;
     const isEmpty = active !== null && !active.loading && !active.error && active.data?.length === 0;
 
     return (
@@ -113,9 +132,7 @@ export const Home = () => {
                 )}
 
                 {isEmpty && (
-                    <Text style={styles.feedbackText}>
-                        {isEvents ? "Nenhum evento programado." : "Nenhuma atração cadastrada ainda."}
-                    </Text>
+                    <Text style={styles.feedbackText}>{EMPTY_TEXT[selectedCategory]}</Text>
                 )}
 
                 {type && attractions.data?.map(item => (
@@ -142,9 +159,17 @@ export const Home = () => {
                     />
                 ))}
 
-                {active === null && (
-                    <Text style={styles.feedbackText}>Em breve.</Text>
-                )}
+                {establishmentType && establishments.data?.map(item => (
+                    <Card
+                        key={item.id}
+                        image={item.coverUrl ? { uri: imageUrl(item.coverUrl) } : undefined}
+                        title={item.name}
+                        price={PRICE_RANGE_LABEL[item.priceRange]}
+                        address={item.address}
+                        buttonText={establishmentType === "HOSPEDAGEM" ? "Ver detalhes da hospedagem" : "Ver detalhes do restaurante"}
+                        onPress={() => navigation.navigate("EstablishmentDetails", { id: item.id })}
+                    />
+                ))}
             </View>
         </ScrollView>
     );

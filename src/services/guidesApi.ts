@@ -21,15 +21,6 @@ export type GuideInput = {
 
 const BASE = "/api/v1/guides";
 
-export function whatsappUrl(whatsapp: string, attractionName: string): string {
-    const text = `Olá! Vi seu contato no app Estação Pedro II e quero informações sobre ${attractionName}`;
-    return `https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`;
-}
-
-export function instagramUrl(handle: string): string {
-    return `https://instagram.com/${handle}`;
-}
-
 /** "5586999990000" → "+55 (86) 99999-0000". Devolve o valor original se não tiver o tamanho esperado. */
 export function formatWhatsapp(digits: string): string {
     if (digits.length !== 12 && digits.length !== 13) return digits;

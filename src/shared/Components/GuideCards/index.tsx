@@ -2,7 +2,8 @@ import { Alert, Image, Linking, Text, TouchableOpacity, View } from "react-nativ
 import { Entypo, Feather, FontAwesome5 } from "@expo/vector-icons";
 
 import { imageUrl } from "@/services/attractionsApi";
-import { instagramUrl, whatsappUrl, type GuideSummary } from "@/services/guidesApi";
+import { instagramUrl, whatsappUrl } from "@/services/contacts";
+import type { GuideSummary } from "@/services/guidesApi";
 import { styles } from "./styles";
 
 type Props = {

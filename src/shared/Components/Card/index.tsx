@@ -11,11 +11,13 @@ type Props = {
     time?: string;
     date?: string,
     level?: string;
+    price?: string;
+    address?: string;
     buttonText?: string;
     onPress: () => void;
 };
 
-export const Card = ({ image, title, distance, time, date, buttonText, level, onPress }: Props) => {
+export const Card = ({ image, title, distance, time, date, buttonText, level, price, address, onPress }: Props) => {
     return (
         <View style={styles.container}>
 
@@ -70,6 +72,20 @@ export const Card = ({ image, title, distance, time, date, buttonText, level, on
                         <View style={styles.infoItem}>
                             <MaterialIcons name="date-range" size={24} color="#0087F7" />
                             <Text style={styles.infoText}>{date}</Text>
+                        </View>
+                    )}
+
+                    {price && (
+                        <View style={styles.infoItem}>
+                            <Feather name="dollar-sign" size={16} color="#0087F7" />
+                            <Text style={styles.infoText}>{price}</Text>
+                        </View>
+                    )}
+
+                    {address && (
+                        <View style={[styles.infoItem, { flexShrink: 1 }]}>
+                            <Feather name="map-pin" size={16} color="#0087F7" />
+                            <Text style={styles.infoText} numberOfLines={1}>{address}</Text>
                         </View>
                     )}
 

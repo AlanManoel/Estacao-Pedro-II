@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Home } from './pages/Home';
 import { AttractionDetails } from './pages/AttractionDetails';
 import { EventDetails } from './pages/EventDetails';
+import { EstablishmentDetails } from './pages/EstablishmentDetails';
 import { AdminMenu } from './pages/admin/AdminMenu';
 import { AdminAttractions } from './pages/admin/AdminAttractions';
 import { AdminAttractionForm } from './pages/admin/AdminAttractionForm';
@@ -27,6 +28,7 @@ type TScreenDefinitions = {
     Home: undefined;
     AttractionDetails: { id: string };
     EventDetails: { id: string };
+    EstablishmentDetails: { id: string };
     AdminMenu: undefined;
     AdminAttractions: undefined;
     AdminAttractionForm: { id?: string };
@@ -75,6 +77,7 @@ export function AppRoutes() {
                         <Stack.Screen name="Home" component={Home} />
                         <Stack.Screen name="AttractionDetails" component={AttractionDetails} />
                         <Stack.Screen name="EventDetails" component={EventDetails} />
+                        <Stack.Screen name="EstablishmentDetails" component={EstablishmentDetails} />
                         {user?.role === "ADMIN" && (
                             <>
                                 <Stack.Screen name="AdminMenu" component={AdminMenu} />
