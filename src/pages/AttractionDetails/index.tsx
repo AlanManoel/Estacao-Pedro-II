@@ -5,7 +5,6 @@ import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
-import { guides } from "@/data/guides";
 import { useRequest } from "@/hooks/useRequest";
 import { getAttraction, imageUrl, TRAIL_LEVEL_LABEL } from "@/services/attractionsApi";
 import { Button } from "@/shared/Components/Button";
@@ -121,10 +120,16 @@ export const AttractionDetails = () => {
 
                 <View>
                     <Text style={styles.sectionTitle}>Guias locais</Text>
-                    <Text style={styles.sectionText}>Entre em contato com os guias através do WhatsApp ou Instagram</Text>
-                    {guides.map((guide) => (
-                        <GuideCards key={guide.id} name={guide.name} image={guide.image} />
-                    ))}
+                    {attraction.guides.length === 0 ? (
+                        <Text style={styles.sectionText}>Nenhum guia cadastrado para esta atração.</Text>
+                    ) : (
+                        <>
+                            <Text style={styles.sectionText}>Entre em contato com os guias pelo WhatsApp ou Instagram</Text>
+                            {attraction.guides.map((guide) => (
+                                <GuideCards key={guide.id} guide={guide} attractionName={attraction.name} />
+                            ))}
+                        </>
+                    )}
                 </View>
             </View>
         </ScrollView>

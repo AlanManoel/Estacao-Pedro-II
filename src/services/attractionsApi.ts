@@ -1,4 +1,5 @@
 import { API_URL, api } from "./api";
+import type { GuideSummary } from "./guidesApi";
 
 export type AttractionType = "CACHOEIRA" | "PONTO_TURISTICO";
 export type TrailLevel = "FACIL" | "MEDIA" | "DIFICIL";
@@ -35,6 +36,7 @@ export type Attraction = AttractionSummary & {
     openingHours: string | null;
     price: string | null;
     photos: AttractionPhoto[];
+    guides: GuideSummary[];
     createdAt: string;
     updatedAt: string;
 };
