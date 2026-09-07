@@ -85,7 +85,7 @@ export const Card = ({ image, title, distance, time, date, buttonText, level, pr
                     {address && (
                         <View style={[styles.infoItem, { flexShrink: 1 }]}>
                             <Feather name="map-pin" size={16} color="#0087F7" />
-                            <Text style={styles.infoText} numberOfLines={1}>{address}</Text>
+                            <Text style={[styles.infoText, { flexShrink: 1 }]} numberOfLines={1}>{address}</Text>
                         </View>
                     )}
 
