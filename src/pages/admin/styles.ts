@@ -96,4 +96,22 @@ export const adminStyles = StyleSheet.create({
         fontSize: Theme.fontSize.caption,
         color: Theme.colors.neutralWhite,
     },
+    avatarRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 16,
+    },
+    avatar: {
+        width: 88,
+        height: 88,
+        borderRadius: 44,
+        backgroundColor: "#E4E2EC",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+    },
+    avatarImage: {
+        width: "100%",
+        height: "100%",
+    },
 });
