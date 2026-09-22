@@ -23,6 +23,11 @@ export const styles = StyleSheet.create({
         width: "100%",
         height: 248,
     },
+    imagePlaceholder: {
+        backgroundColor: "#E4E2EC",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     badge: {
         position: "absolute",
         top: 12,

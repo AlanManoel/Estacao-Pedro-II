@@ -1,42 +1,72 @@
 import { useState } from 'react';
-import { ScrollView, Text, View, Image } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native"
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
-
-
+import { useAuth } from '@/contexts/AuthContext';
+import { useRequest } from '@/hooks/useRequest';
+import {
+    imageUrl,
+    listAttractions,
+    TRAIL_LEVEL_LABEL,
+    type AttractionType,
+} from '@/services/attractionsApi';
+import { listEstablishments, PRICE_RANGE_LABEL, type EstablishmentType } from '@/services/establishmentsApi';
+import { formatPeriod, listEvents } from '@/services/eventsApi';
+import { Theme } from '@/shared/Themes';
 
 import { styles } from './styles';
 import { Images } from '@/shared/Assets';
+import { Button } from '@/shared/Components/Button';
 import { Chip } from '@/shared/Components/Chip';
 import { Card } from '@/shared/Components/Card';
 import { categories } from "@/data/categories"
-import { waterfalls } from '@/data/waterfalls'
-import { touristAttractions } from '@/data/touristAttractions';
-import { events } from '@/data/event';
+
+const CATEGORY_TYPE: Record<string, AttractionType | undefined> = {
+    "Cachoeiras": "CACHOEIRA",
+    "Pontos turísticos": "PONTO_TURISTICO",
+};
+
+const CATEGORY_ESTABLISHMENT_TYPE: Record<string, EstablishmentType | undefined> = {
+    "Hospedagem": "HOSPEDAGEM",
+    "Restaurantes": "RESTAURANTE",
+};
+
+const EMPTY_TEXT: Record<string, string> = {
+    "Cachoeiras": "Nenhuma cachoeira cadastrada ainda.",
+    "Pontos turísticos": "Nenhum ponto turístico cadastrado ainda.",
+    "Eventos": "Nenhum evento programado.",
+    "Hospedagem": "Nenhuma hospedagem cadastrada ainda.",
+    "Restaurantes": "Nenhum restaurante cadastrado ainda.",
+};
 
 export const Home = () => {
 
     const navigation = useNavigation<TSScreenDefinitionsProps>();
+    const { user, signOut } = useAuth();
+    const isAdmin = user?.role === "ADMIN";
 
+    const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+    const type = CATEGORY_TYPE[selectedCategory];
+    const establishmentType = CATEGORY_ESTABLISHMENT_TYPE[selectedCategory];
+    const isEvents = selectedCategory === "Eventos";
 
-    const [selectedCategory, setSelectedCategory] = useState(
-        categories[0]
+    const attractions = useRequest(
+        () => (type ? listAttractions(type) : Promise.resolve([])),
+        [type],
+    );
+    const events = useRequest(
+        () => (isEvents ? listEvents() : Promise.resolve([])),
+        [isEvents],
+    );
+    const establishments = useRequest(
+        () => (establishmentType ? listEstablishments(establishmentType) : Promise.resolve([])),
+        [establishmentType],
     );
 
-    let data: any[] = [];
-    let buttonText = "";
-
-    if (selectedCategory === "Cachoeiras") {
-        data = waterfalls;
-        buttonText = "Ver detalhes da trilha";
-    } else if (selectedCategory === "Pontos turísticos") {
-        data = touristAttractions;
-        buttonText = "Ver detalhes do ponto turístico";
-    } else if (selectedCategory === "Eventos") {
-        data = events;
-        buttonText = "Ver detalhes dos eventos";
-    }
+    const active = type ? attractions : isEvents ? events : establishmentType ? establishments : null;
+    const isEmpty = active !== null && !active.loading && !active.error && active.data?.length === 0;
 
     return (
         <ScrollView>
@@ -47,10 +77,24 @@ export const Home = () => {
                     <View style={styles.containerLogo}>
                         <Image source={Images.logoBlue} />
                         <View>
-                            <Text style={styles.title}>Bem vindo(a) ao</Text>
+                            <Text style={styles.title}>Bem vindo(a){user ? `, ${user.name}` : ""}</Text>
                             <Text style={styles.subtitle}>Estação Pedro II</Text>
                         </View>
                     </View>
+
+                    {isAdmin && (
+                        <TouchableOpacity
+                            style={styles.headerButton}
+                            onPress={() => navigation.navigate("AdminMenu")}
+                            accessibilityLabel="Administração"
+                        >
+                            <Feather name="settings" size={22} color={Theme.colors.primary500} />
+                        </TouchableOpacity>
+                    )}
+
+                    <TouchableOpacity style={styles.headerButton} onPress={signOut} accessibilityLabel="Sair">
+                        <Feather name="log-out" size={22} color={Theme.colors.primary500} />
+                    </TouchableOpacity>
 
                 </View>
 
@@ -64,7 +108,6 @@ export const Home = () => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.categoriesContaine}
-
             >
                 {categories.map(category => (
                     <Chip
@@ -77,25 +120,56 @@ export const Home = () => {
             </ScrollView>
 
             <View style={styles.containerCards}>
-                {data.map(item => (
+                {active?.loading && (
+                    <ActivityIndicator size="large" color={Theme.colors.primary500} />
+                )}
+
+                {active?.error && (
+                    <View style={styles.feedback}>
+                        <Text style={styles.feedbackText}>{active.error}</Text>
+                        <Button title="Tentar de novo" variant="outline" onPress={active.reload} />
+                    </View>
+                )}
+
+                {isEmpty && (
+                    <Text style={styles.feedbackText}>{EMPTY_TEXT[selectedCategory]}</Text>
+                )}
+
+                {type && attractions.data?.map(item => (
                     <Card
                         key={item.id}
-                        image={item.image}
+                        image={item.coverUrl ? { uri: imageUrl(item.coverUrl) } : undefined}
                         title={item.name}
-                        distance={item.distance}
-                        time={item.time}
-                        date={item.date}
-                        level={item.level}
-                        buttonText={buttonText}
-                        onPress={() => {
-                            if (selectedCategory === "Cachoeiras") {
-                                navigation.navigate("DetailsWaterfall", { id: item.id });
-                            } else if (selectedCategory === "Pontos turísticos") {
-                                navigation.navigate("DetailsAttraction", { id: item.id });
-                            }
-                        }} />
+                        distance={item.trailDistance ?? undefined}
+                        time={item.trailTime ?? undefined}
+                        level={item.trailLevel ? TRAIL_LEVEL_LABEL[item.trailLevel] : undefined}
+                        buttonText={type === "CACHOEIRA" ? "Ver detalhes da trilha" : "Ver detalhes do ponto turístico"}
+                        onPress={() => navigation.navigate("AttractionDetails", { id: item.id })}
+                    />
                 ))}
 
+                {isEvents && events.data?.map(item => (
+                    <Card
+                        key={item.id}
+                        image={item.coverUrl ? { uri: imageUrl(item.coverUrl) } : undefined}
+                        title={item.name}
+                        date={formatPeriod(item.startsAt, item.endsAt)}
+                        buttonText="Ver detalhes do evento"
+                        onPress={() => navigation.navigate("EventDetails", { id: item.id })}
+                    />
+                ))}
+
+                {establishmentType && establishments.data?.map(item => (
+                    <Card
+                        key={item.id}
+                        image={item.coverUrl ? { uri: imageUrl(item.coverUrl) } : undefined}
+                        title={item.name}
+                        price={PRICE_RANGE_LABEL[item.priceRange]}
+                        address={item.address}
+                        buttonText={establishmentType === "HOSPEDAGEM" ? "Ver detalhes da hospedagem" : "Ver detalhes do restaurante"}
+                        onPress={() => navigation.navigate("EstablishmentDetails", { id: item.id })}
+                    />
+                ))}
             </View>
         </ScrollView>
     );

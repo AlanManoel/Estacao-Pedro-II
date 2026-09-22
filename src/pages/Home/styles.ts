@@ -18,6 +18,23 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 12,
     },
+    headerButton: {
+        width: 44,
+        height: 44,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    feedback: {
+        alignItems: "center",
+        gap: 12,
+        paddingHorizontal: 20,
+    },
+    feedbackText: {
+        fontFamily: Theme.fonts.poppinsRegular,
+        fontSize: Theme.fontSize.body,
+        color: Theme.colors.neutralBlack,
+        textAlign: "center",
+    },
     title: {
         fontSize: Theme.fontSize.body,
         fontFamily: Theme.fonts.poppinsRegular,

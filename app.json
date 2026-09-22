@@ -28,7 +28,14 @@
     },
     "plugins": [
       "expo-font",
-      "expo-maps"
+      "expo-maps",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app acessa suas fotos para enviar imagens das atrações."
+        }
+      ]
     ]
   }
 }

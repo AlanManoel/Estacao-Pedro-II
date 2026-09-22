@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: Theme.colors.neutralWhite,
         height: 100,
-        width: 340,
+        width: "100%",
         borderWidth: 1,
         borderColor: "rgba(255,255,255,0.7)",
         shadowColor: "#A9A9B8",
@@ -30,16 +30,30 @@ export const styles = StyleSheet.create({
         width: 52,
         borderRadius: 100
     },
+    imagePlaceholder: {
+        backgroundColor: "#E4E2EC",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    texts: {
+        flex: 1,
+        gap: 2,
+    },
     nameCard: {
         fontFamily: Theme.fonts.poppinsBold,
         fontSize: Theme.fontSize.body,
-        maxWidth: 80
+    },
+    descriptionCard: {
+        fontFamily: Theme.fonts.poppinsRegular,
+        fontSize: Theme.fontSize.caption,
+        color: "#6B6B7B",
     },
     containterPrimaryCard: {
+        flex: 1,
         flexDirection: "row",
         alignItems: "center",
         gap: 8,
-        justifyContent: "center"
+        justifyContent: "flex-start"
     },
     containterIcons:{
         flexDirection: "row",

@@ -1,27 +1,35 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View, type ImageSourcePropType } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 import { styles } from "./styles";
 
 type Props = {
-    image: any;
+    image?: ImageSourcePropType;
     title: string;
     distance?: string;
     time?: string;
     date?: string,
     level?: string;
+    price?: string;
+    address?: string;
     buttonText?: string;
     onPress: () => void;
 };
 
-export const Card = ({ image, title, distance, time, date, buttonText, level, onPress }: Props) => {
+export const Card = ({ image, title, distance, time, date, buttonText, level, price, address, onPress }: Props) => {
     return (
         <View style={styles.container}>
 
             <View style={styles.imageContainer}>
 
-                <Image source={image} style={styles.image} />
+                {image ? (
+                    <Image source={image} style={styles.image} />
+                ) : (
+                    <View style={[styles.image, styles.imagePlaceholder]}>
+                        <Feather name="image" size={40} color="#A9A9B8" />
+                    </View>
+                )}
 
                 {level && (
                     <View style={styles.badge}>
@@ -64,6 +72,20 @@ export const Card = ({ image, title, distance, time, date, buttonText, level, on
                         <View style={styles.infoItem}>
                             <MaterialIcons name="date-range" size={24} color="#0087F7" />
                             <Text style={styles.infoText}>{date}</Text>
+                        </View>
+                    )}
+
+                    {price && (
+                        <View style={styles.infoItem}>
+                            <Feather name="dollar-sign" size={16} color="#0087F7" />
+                            <Text style={styles.infoText}>{price}</Text>
+                        </View>
+                    )}
+
+                    {address && (
+                        <View style={[styles.infoItem, { flexShrink: 1 }]}>
+                            <Feather name="map-pin" size={16} color="#0087F7" />
+                            <Text style={[styles.infoText, { flexShrink: 1 }]} numberOfLines={1}>{address}</Text>
                         </View>
                     )}
 
