@@ -110,4 +110,51 @@ export const detailsStyles = StyleSheet.create({
         fontSize: Theme.fontSize.button,
         color: "#6B6B7B",
     },
+
+    imageContainer: {
+        height: 470,
+        position: "relative",
+        overflow: "hidden",
+        backgroundColor: "#F3F0FA",
+    },
+
+    imageLabel: {
+        position: "absolute",
+        top: 12,
+        left: 25,
+        zIndex: 10,
+        fontSize: 12,
+        color: "#555",
+    },
+
+    mainPhoto: {
+        width: "100%",
+        height: 470,
+        resizeMode: "cover",
+    },
+
+    thumbnailContainer: {
+        position: "absolute",
+        right: 25,
+        bottom: 50,
+        gap: 8,
+        zIndex: 20,
+    },
+
+    thumbnail: {
+        width: 72,
+        height: 72,
+        borderRadius: 18,
+        borderWidth: 2,
+        borderColor: "#0087F7",
+    },
+
+    imageGradient: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: 230,
+        zIndex: 5,
+    },
 });

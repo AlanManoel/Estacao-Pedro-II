@@ -35,7 +35,9 @@
         {
           "photosPermission": "O app acessa suas fotos para enviar imagens das atrações."
         }
-      ]
+      ],
+      "expo-splash-screen",
+      "expo-status-bar"
     ]
   }
 }
