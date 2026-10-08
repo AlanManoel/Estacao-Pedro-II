@@ -105,10 +105,11 @@ export const detailsStyles = StyleSheet.create({
         fontSize: Theme.fontSize.body,
         color: Theme.colors.primary500,
     },
+
     periodNote: {
         fontFamily: Theme.fonts.poppinsRegular,
         fontSize: Theme.fontSize.button,
-        color: "#6B6B7B",
+        color: Theme.colors.neutralBlack,
     },
 
     imageContainer: {
@@ -156,5 +157,16 @@ export const detailsStyles = StyleSheet.create({
         bottom: 0,
         height: 230,
         zIndex: 5,
+    },
+
+    singlePhotoContainer: {
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    singlePhoto: {
+        width: "100%",
+        height: 300,
     },
 });
