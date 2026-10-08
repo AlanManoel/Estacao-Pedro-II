@@ -1,9 +1,7 @@
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
-
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
 import { useRequest } from "@/hooks/useRequest";
 import { imageUrl } from "@/services/attractionsApi";
@@ -12,12 +10,14 @@ import { Button } from "@/shared/Components/Button";
 import { Theme } from "@/shared/Themes";
 import { detailsStyles as styles } from "../details.styles";
 
-type Section = { title: string; text: string | null };
+type Section = {
+    title: string;
+    text: string | null;
+};
 
 export const EventDetails = () => {
     const navigation = useNavigation<TSScreenDefinitionsProps>();
     const { id } = useRoute().params as { id: string };
-
     const { data: event, loading, error, reload } = useRequest(() => getEvent(id), [id]);
 
     if (loading) {
@@ -44,52 +44,82 @@ export const EventDetails = () => {
         { title: "Dicas", text: event.tips },
     ];
 
+    const mainPhoto = event.photos?.[0];
+
     return (
         <ScrollView>
-            <View style={styles.mapContainer}>
-                <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.goBack()}>
-                    <Feather name="arrow-left" size={24} color="#F3F0FA" />
+            <View style={styles.imageContainer}>
+                {mainPhoto && (
+                    <Image
+                        source={{
+                            uri: imageUrl(mainPhoto.url),
+                        }}
+                        style={styles.mainPhoto}
+                    />
+                )}
+
+                <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.goBack()} >
+                    <Feather name="arrow-left" size={28} color="#F3F0FA" />
                 </TouchableOpacity>
 
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: event.latitude,
-                        longitude: event.longitude,
-                        latitudeDelta: 0.01,
-                        longitudeDelta: 0.01,
-                    }}
-                >
-                    <Marker coordinate={{ latitude: event.latitude, longitude: event.longitude }} title={event.name} />
-                </MapView>
-
                 <LinearGradient
-                    colors={["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.7)", "#F3F0FA"]}
-                    style={styles.gradient}
-                />
+                    colors={[
+                        "transparent",
+                        "rgba(243, 240, 250, 0.15)",
+                        "rgba(243, 240, 250, 0.55)",
+                        "rgba(243, 240, 250, 0.9)",
+                        "#F3F0FA",
+                    ]}
+                    locations={[0, 0.35, 0.65, 0.85, 1]}
+                    style={styles.imageGradient} />
             </View>
 
             <View style={styles.content}>
-                <View>
-                    <Text style={styles.title}>{event.name}</Text>
-                    <Text style={styles.period}>{formatPeriod(event.startsAt, event.endsAt)}</Text>
-                    {event.dateNote && <Text style={styles.periodNote}>{event.dateNote}</Text>}
-                </View>
+                <Text style={styles.title}>{event.name}</Text>
+
+                <Text style={styles.period}> {formatPeriod(event.startsAt, event.endsAt)} </Text>
+
+                {event.dateNote && (<Text style={styles.periodNote}> {event.dateNote} </Text>)}
 
                 {event.photos.length > 0 && (
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.photosContainer}>
-                        {event.photos.map((photo) => (
-                            <Image key={photo.id} source={{ uri: imageUrl(photo.url) }} style={styles.photo} />
-                        ))}
-                    </ScrollView>
+                    <View>
+                        <Text style={styles.sectionTitle}>Fotos do evento</Text>
+
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={[
+                                styles.photosContainer,
+                                event.photos.length === 1 && styles.singlePhotoContainer,
+                            ]}
+                        >
+                            {event.photos.map((photo) => (
+                                <Image
+                                    key={photo.id}
+                                    source={{
+                                        uri: imageUrl(photo.url),
+                                    }}
+                                    style={[
+                                        styles.photo,
+                                        event.photos.length === 1 && styles.singlePhoto,
+                                    ]}
+                                />
+                            ))}
+                        </ScrollView>
+                    </View>
                 )}
 
                 {sections
                     .filter((section) => section.text)
                     .map((section) => (
                         <View key={section.title}>
-                            <Text style={styles.sectionTitle}>{section.title}</Text>
-                            <Text style={styles.sectionText}>{section.text}</Text>
+                            <Text style={styles.sectionTitle}>
+                                {section.title}
+                            </Text>
+
+                            <Text style={styles.sectionText}>
+                                {section.text}
+                            </Text>
                         </View>
                     ))}
             </View>

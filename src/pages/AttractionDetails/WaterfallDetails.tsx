@@ -99,8 +99,7 @@ export const WaterfallDetails = ({ attraction }: Props) => {
                         <Text style={styles.sectionText}>{attraction.description}</Text>
                     </View>
                 )}
-
-                {/* DICAS */}
+                
                 {attraction.tips && (
                     <View>
                         <Text style={styles.sectionTitle}>Dicas e cuidados</Text>
@@ -109,7 +108,6 @@ export const WaterfallDetails = ({ attraction }: Props) => {
                     </View>
                 )}
 
-                {/* COMO CHEGAR */}
                 {attraction.howToGet && (
                     <View>
                         <Text style={styles.sectionTitle}>
@@ -122,7 +120,6 @@ export const WaterfallDetails = ({ attraction }: Props) => {
                     </View>
                 )}
 
-                {/* GUIAS */}
                 <View>
                     <Text style={styles.sectionTitle}>
                         Guias locais
