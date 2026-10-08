@@ -85,7 +85,10 @@ export const TouristSpotDetails = ({ attraction }: Props) => {
                     <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.photosContainer}
+                        contentContainerStyle={[
+                            styles.photosContainer,
+                            attraction.photos.length === 1 && styles.singlePhotoContainer,
+                        ]}
                     >
                         {attraction.photos.map((photo: any) => (
                             <Image
@@ -93,7 +96,10 @@ export const TouristSpotDetails = ({ attraction }: Props) => {
                                 source={{
                                     uri: imageUrl(photo.url),
                                 }}
-                                style={styles.photo}
+                                style={[
+                                    styles.photo,
+                                    attraction.photos.length === 1 && styles.singlePhoto,
+                                ]}
                             />
                         ))}
                     </ScrollView>
