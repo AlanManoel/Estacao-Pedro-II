@@ -6,9 +6,9 @@ export const touristAttractions = [
         name: "Mirante do Gritador",
 
         images: [
-            Images.morroDoGritador,
-            Images.morroDoGritador2,
-            Images.morroDoGritador3
+            // Images.morroDoGritador,
+            // Images.morroDoGritador2,
+            // Images.morroDoGritador3
         ],
 
         location: {

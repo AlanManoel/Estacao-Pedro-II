@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "Estação Pedro II",
@@ -6,12 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#F3F0FA"
-    },
     "ios": {
       "supportsTablet": true
     },
@@ -20,8 +15,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F3F0FA"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.alan_manoel.estacaopedroii"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,8 +34,22 @@
           "photosPermission": "O app acessa suas fotos para enviar imagens das atrações."
         }
       ],
-      "expo-splash-screen",
-      "expo-status-bar"
-    ]
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#F3F0FA"
+        }
+      ],
+      "expo-status-bar",
+      "@maplibre/maplibre-react-native"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9f7eedf0-86d0-4f8d-93f9-24bb21a9f7e9"
+      }
+    }
   }
 }
