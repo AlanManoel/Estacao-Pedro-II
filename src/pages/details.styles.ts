@@ -169,4 +169,24 @@ export const detailsStyles = StyleSheet.create({
         width: "100%",
         height: 300,
     },
+    maker: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#FF6424",
+        width: 24,
+        height: 24,
+        borderRadius: 19,
+        borderWidth: 3,
+        borderColor: "#FFFFFF",
+    },
+    textMaps:{
+        position: "absolute",
+        bottom: 0,
+        right: 8,
+        fontSize: 10,
+        color: "#373840",
+        backgroundColor: "rgba(243,240,250,0.9)",
+        paddingHorizontal: 5,
+        paddingVertical: 3,
+    }
 });
