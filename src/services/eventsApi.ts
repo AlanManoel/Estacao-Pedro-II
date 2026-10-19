@@ -1,5 +1,6 @@
 import { api } from "./api";
 import type { AttractionPhoto } from "./attractionsApi";
+import { File } from "expo-file-system";
 
 export type EventSummary = {
     id: string;
@@ -82,9 +83,15 @@ export function deleteEvent(id: string) {
     return api<void>(`${BASE}/${id}`, { method: "DELETE" });
 }
 
-export function uploadEventPhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+// export function uploadEventPhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+//     const form = new FormData();
+//     form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+//     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
+// }
+
+export function uploadEventPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
     const form = new FormData();
-    form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+    form.append("file", new File(fileUri));
     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
 }
 

@@ -1,5 +1,6 @@
 import { API_URL, api } from "./api";
 import type { GuideSummary } from "./guidesApi";
+import { File } from "expo-file-system";
 
 export type AttractionType = "CACHOEIRA" | "PONTO_TURISTICO";
 export type TrailLevel = "FACIL" | "MEDIA" | "DIFICIL";
@@ -83,10 +84,16 @@ export function deleteAttraction(id: string) {
     return api<void>(`${BASE}/${id}`, { method: "DELETE" });
 }
 
-export function uploadPhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+// export function uploadPhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+//     const form = new FormData();
+//     // No React Native, FormData aceita { uri, type, name } como arquivo.
+//     form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+//     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
+// }
+
+export function uploadPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
     const form = new FormData();
-    // No React Native, FormData aceita { uri, type, name } como arquivo.
-    form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+    form.append("file", new File(fileUri));
     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
 }
 

@@ -1,4 +1,6 @@
 import { api } from "./api";
+import { File } from "expo-file-system";
+
 
 export type GuideSummary = {
     id: string;
@@ -51,8 +53,14 @@ export function deleteGuide(id: string) {
     return api<void>(`${BASE}/${id}`, { method: "DELETE" });
 }
 
-export function uploadGuidePhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+// export function uploadGuidePhoto(id: string, fileUri: string, mimeType: string, fileName: string) {
+//     const form = new FormData();
+//     form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+//     return api<Guide>(`${BASE}/${id}/photo`, { method: "POST", body: form });
+// }
+
+export function uploadGuidePhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
     const form = new FormData();
-    form.append("file", { uri: fileUri, type: mimeType, name: fileName } as unknown as Blob);
+    form.append("file", new File(fileUri));
     return api<Guide>(`${BASE}/${id}/photo`, { method: "POST", body: form });
 }
