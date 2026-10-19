@@ -1,7 +1,7 @@
 import { ActivityIndicator, Alert, Image, Linking, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import MapView, { Marker } from "react-native-maps";
+import { Map, Camera, Marker } from "@maplibre/maplibre-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
@@ -27,6 +27,8 @@ async function open(url: string) {
     }
 }
 
+const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+
 export const EstablishmentDetails = () => {
     const navigation = useNavigation<TSScreenDefinitionsProps>();
     const { id } = useRoute().params as { id: string };
@@ -51,6 +53,15 @@ export const EstablishmentDetails = () => {
         );
     }
 
+    const latitude = Number(place.latitude);
+    const longitude = Number(place.longitude);
+
+    const hasCoordinates =
+        Number.isFinite(latitude) &&
+        Number.isFinite(longitude) &&
+        Math.abs(latitude) <= 90 &&
+        Math.abs(longitude) <= 180;
+
     const sections: Section[] = [
         { title: "Sobre", text: place.description },
         { title: "Destaques", text: place.highlights },
@@ -65,22 +76,41 @@ export const EstablishmentDetails = () => {
                     <Feather name="arrow-left" size={24} color="#F3F0FA" />
                 </TouchableOpacity>
 
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: place.latitude,
-                        longitude: place.longitude,
-                        latitudeDelta: 0.01,
-                        longitudeDelta: 0.01,
-                    }}
-                >
-                    <Marker coordinate={{ latitude: place.latitude, longitude: place.longitude }} title={place.name} />
-                </MapView>
+                {hasCoordinates ? (
+                        <Map
+                            style={styles.map}
+                            mapStyle={MAP_STYLE}
+                            androidView="texture"
+                            dragPan={true}
+                            touchZoom={true}
+                        >
+                            <Camera initialViewState={{ center: [longitude, latitude], zoom: 15 }} />
+
+                            <Marker id="establishment-marker" lngLat={[longitude, latitude]}>
+                                <View style={styles.maker}>
+                                    <Feather name="map-pin" size={20} color="#FFFFFF" />
+                                </View>
+                            </Marker>
+                        </Map>
+                    ) : (
+                        <View
+                            style={[
+                                styles.map,
+                                { alignItems: "center", justifyContent: "center", backgroundColor: "#E5E7EB" },
+                            ]}
+                        >
+                            <Feather name="map-pin" size={32} color="#373840" />
+                            <Text>Localização indisponível</Text>
+                        </View>
+                )}
 
                 <LinearGradient
-                    colors={["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.7)", "#F3F0FA"]}
-                    style={styles.gradient}
-                />
+                colors={["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.7)", "#F3F0FA"]}
+                style={styles.gradient}
+                pointerEvents="none"
+                    />
+
+                    <Text style={styles.textMaps}>© OpenStreetMap contributors</Text>
             </View>
 
             <View style={styles.content}>
@@ -99,9 +129,22 @@ export const EstablishmentDetails = () => {
                 </View>
 
                 {place.photos.length > 0 && (
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.photosContainer}>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={[
+                            styles.photosContainer,
+                            place.photos.length === 1 && styles.singlePhotoContainer,
+                        ]}>
                         {place.photos.map((photo) => (
-                            <Image key={photo.id} source={{ uri: imageUrl(photo.url) }} style={styles.photo} />
+                            <Image
+                                key={photo.id}
+                                source={{ uri: imageUrl(photo.url) }}
+                                style={[
+                                    styles.photo,
+                                    place.photos.length === 1 && styles.singlePhoto,
+                                ]}
+                            />
                         ))}
                     </ScrollView>
                 )}
