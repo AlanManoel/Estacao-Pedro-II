@@ -44,7 +44,7 @@ export const TouristSpotDetails = ({ attraction }: Props) => {
 
             <Marker id="attraction-marker" lngLat={[longitude, latitude]} >
               <View style={styles.maker} >
-                <Feather me="map-pin" size={20} color="#FFFFFF" />
+                <Feather name="map-pin" size={20} color="#FFFFFF" />
               </View>
             </Marker>
           </Map>
