@@ -1,10 +1,9 @@
+import { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View, } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
-
 import { imageUrl, } from "@/services/attractionsApi";
 import { GuideCards } from "@/shared/Components/GuideCards";
 import { detailsStyles as styles } from "../details.styles";
@@ -16,8 +15,11 @@ type Props = {
 export const WaterfallDetails = ({ attraction }: Props) => {
     const navigation = useNavigation<TSScreenDefinitionsProps>();
 
-    const mainPhoto = attraction.photos?.[0];
-    const thumbnails = attraction.photos?.slice(1);
+    const photos = attraction.photos ?? [];
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+
+    const mainPhoto = photos.find((p: any) => p.id === selectedId) ?? photos[0];
+    const thumbnails = photos.filter((p: any) => p.id !== mainPhoto?.id);
 
     return (
         <ScrollView>
@@ -40,16 +42,19 @@ export const WaterfallDetails = ({ attraction }: Props) => {
                     />
                 </TouchableOpacity>
 
-                {thumbnails?.length > 0 && (
+                {thumbnails.length > 0 && (
                     <View style={styles.thumbnailContainer}>
                         {thumbnails.slice(0, 3).map((photo: any) => (
-                            <Image
+                            <TouchableOpacity
                                 key={photo.id}
-                                source={{
-                                    uri: imageUrl(photo.url),
-                                }}
-                                style={styles.thumbnail}
-                            />
+                                activeOpacity={0.8}
+                                onPress={() => setSelectedId(photo.id)}
+                            >
+                                <Image
+                                    source={{ uri: imageUrl(photo.url) }}
+                                    style={styles.thumbnail}
+                                />
+                            </TouchableOpacity>
                         ))}
                     </View>
                 )}
