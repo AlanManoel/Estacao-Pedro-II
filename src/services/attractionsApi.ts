@@ -26,7 +26,12 @@ export type AttractionSummary = {
     trailLevel: TrailLevel | null;
 };
 
-export type AttractionPhoto = { id: string; url: string; position: number };
+export type AttractionPhoto = {
+    id: string;
+    url: string;
+    position: number;
+    credit: string | null;
+};
 
 export type Attraction = AttractionSummary & {
     description: string;
@@ -91,10 +96,27 @@ export function deleteAttraction(id: string) {
 //     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
 // }
 
-export function uploadPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
+export function uploadPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null, credit?: string) {
     const form = new FormData();
     form.append("file", new File(fileUri));
+    if (credit?.trim()) {
+        form.append("credit", credit.trim());
+    }
     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
+}
+
+export function updatePhotoCredit(
+    id: string,
+    photoId: string,
+    credit: string | null,
+) {
+    return api<AttractionPhoto>(
+        `${BASE}/${id}/photos/${photoId}`,
+        {
+            method: "PATCH",
+            body: { credit },
+        },
+    );
 }
 
 export function deletePhoto(id: string, photoId: string) {
