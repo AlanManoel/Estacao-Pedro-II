@@ -26,12 +26,37 @@ export const WaterfallDetails = ({ attraction }: Props) => {
             <View style={styles.imageContainer}>
 
                 {mainPhoto && (
-                    <Image
-                        source={{
-                            uri: imageUrl(mainPhoto.url),
-                        }}
-                        style={styles.mainPhoto}
-                    />
+                    <>
+                        <Image
+                            source={{ uri: imageUrl(mainPhoto.url) }}
+                            style={styles.mainPhoto}
+                        />
+
+                        {!!mainPhoto.credit?.trim() && (
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    bottom: 2,
+                                    alignSelf: "center",
+                                    zIndex: 20,
+                                    paddingHorizontal: 10,
+                                    paddingVertical: 5,
+                                    borderRadius: 6,
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color: "#696969",
+                                        fontSize: 12,
+                                        fontWeight: "700",
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    Imagem: {mainPhoto.credit}
+                                </Text>
+                            </View>
+                        )}
+                    </>
                 )}
 
                 <TouchableOpacity style={styles.buttonBack} onPress={() => navigation.goBack()}>
@@ -104,7 +129,7 @@ export const WaterfallDetails = ({ attraction }: Props) => {
                         <Text style={styles.sectionText}>{attraction.description}</Text>
                     </View>
                 )}
-                
+
                 {attraction.tips && (
                     <View>
                         <Text style={styles.sectionTitle}>Dicas e cuidados</Text>
