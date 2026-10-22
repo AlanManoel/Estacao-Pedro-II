@@ -1,8 +1,8 @@
-import {  Image,  ScrollView,  Text,  TouchableOpacity,  View} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import {  Map,  Camera,  Marker} from "@maplibre/maplibre-react-native";
+import { Map, Camera, Marker } from "@maplibre/maplibre-react-native";
 import { TSScreenDefinitionsProps } from "@/AppRoutes";
 import { imageUrl } from "@/services/attractionsApi";
 import { GuideCards } from "@/shared/Components/GuideCards";
@@ -58,7 +58,7 @@ export const TouristSpotDetails = ({ attraction }: Props) => {
                 backgroundColor: "#E5E7EB",
               },
             ]} >
-            <Feather name="map-pin"  size={32} color="#373840" />
+            <Feather name="map-pin" size={32} color="#373840" />
             <Text>Localização indisponível</Text>
           </View>
         )}
@@ -89,21 +89,42 @@ export const TouristSpotDetails = ({ attraction }: Props) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={[
               styles.photosContainer,
-              attraction.photos.length === 1 &&
-                styles.singlePhotoContainer,
+              attraction.photos.length === 1 && styles.singlePhotoContainer,
             ]}
           >
             {attraction.photos.map((photo: any) => (
-              <Image
+              <View
                 key={photo.id}
-                source={{ uri: imageUrl(photo.url) }}
-                style={[
-                  styles.photo,
-                  attraction.photos.length === 1 &&
-                    styles.singlePhoto,
-                ]}
-              />
-            ))}
+                style={{
+                  width: attraction.photos.length === 1 ? "100%" : 280,
+                  marginRight: 32,
+                }}
+              >
+                <Image
+                  source={{ uri: imageUrl(photo.url) }}
+                  style={[
+                    styles.photo,
+                    attraction.photos.length === 1 && styles.singlePhoto,
+                  ]}
+                />
+
+                {!!photo.credit?.trim() && (
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: "#666666",
+                      marginTop: 5,
+                      marginBottom: 8,
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                  >
+                    Imagem: {photo.credit}
+                  </Text>
+                )}
+              </View>
+            ))
+            }
           </ScrollView>
         )}
 
