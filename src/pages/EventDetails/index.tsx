@@ -94,16 +94,39 @@ export const EventDetails = () => {
                             ]}
                         >
                             {event.photos.map((photo) => (
-                                <Image
+                                <View
                                     key={photo.id}
-                                    source={{
-                                        uri: imageUrl(photo.url),
+                                    style={{
+                                        width: event.photos.length === 1 ? "100%" : 280,
+                                        marginRight: 12,
                                     }}
-                                    style={[
-                                        styles.photo,
-                                        event.photos.length === 1 && styles.singlePhoto,
-                                    ]}
-                                />
+                                >
+                                    <Image
+                                        source={{
+                                            uri: imageUrl(photo.url),
+                                        }}
+                                        style={[
+                                            styles.photo,
+                                            event.photos.length === 1 && styles.singlePhoto,
+                                        ]}
+                                    />
+
+                                    {!!photo.credit?.trim() && (
+                                        <Text
+                                            style={{
+                                                color: "#696969",
+                                                fontSize: 12,
+                                                fontWeight: "700",
+                                                textAlign: "center",
+                                                marginTop: 5,
+                                                marginBottom: 8,
+                                                width: "100%",
+                                            }}
+                                        >
+                                            Imagem: {photo.credit}
+                                        </Text>
+                                    )}
+                                </View>
                             ))}
                         </ScrollView>
                     </View>
