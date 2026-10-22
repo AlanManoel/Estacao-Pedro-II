@@ -80,10 +80,27 @@ export function deleteEstablishment(id: string) {
 //     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
 // }
 
-export function uploadEstablishmentPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
+export function uploadEstablishmentPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null, credit?: string) {
     const form = new FormData();
     form.append("file", new File(fileUri));
+    if (credit?.trim()) {
+        form.append("credit", credit.trim());
+    }
     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
+}
+
+export function updateEstablishmentPhotoCredit(
+    id: string,
+    photoId: string,
+    credit: string | null,
+) {
+    return api<AttractionPhoto>(
+        `${BASE}/${id}/photos/${photoId}`,
+        {
+            method: "PATCH",
+            body: { credit },
+        },
+    );
 }
 
 export function deleteEstablishmentPhoto(id: string, photoId: string) {
