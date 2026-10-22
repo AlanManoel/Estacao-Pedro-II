@@ -89,10 +89,27 @@ export function deleteEvent(id: string) {
 //     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
 // }
 
-export function uploadEventPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null) {
+export function uploadEventPhoto(id: string, fileUri: string, mimeType?: string | null, fileName?: string | null, credit?: string) {
     const form = new FormData();
     form.append("file", new File(fileUri));
+    if (credit?.trim()) {
+        form.append("credit", credit.trim());
+    }
     return api<AttractionPhoto>(`${BASE}/${id}/photos`, { method: "POST", body: form });
+}
+
+export function updateEventPhotoCredit(
+    id: string,
+    photoId: string,
+    credit: string | null,
+) {
+    return api<AttractionPhoto>(
+        `${BASE}/${id}/photos/${photoId}`,
+        {
+            method: "PATCH",
+            body: { credit },
+        },
+    );
 }
 
 export function deleteEventPhoto(id: string, photoId: string) {
