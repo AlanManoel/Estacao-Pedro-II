@@ -77,40 +77,40 @@ export const EstablishmentDetails = () => {
                 </TouchableOpacity>
 
                 {hasCoordinates ? (
-                        <Map
-                            style={styles.map}
-                            mapStyle={MAP_STYLE}
-                            androidView="texture"
-                            dragPan={true}
-                            touchZoom={true}
-                        >
-                            <Camera initialViewState={{ center: [longitude, latitude], zoom: 15 }} />
+                    <Map
+                        style={styles.map}
+                        mapStyle={MAP_STYLE}
+                        androidView="texture"
+                        dragPan={true}
+                        touchZoom={true}
+                    >
+                        <Camera initialViewState={{ center: [longitude, latitude], zoom: 15 }} />
 
-                            <Marker id="establishment-marker" lngLat={[longitude, latitude]}>
-                                <View style={styles.maker}>
-                                    <Feather name="map-pin" size={20} color="#FFFFFF" />
-                                </View>
-                            </Marker>
-                        </Map>
-                    ) : (
-                        <View
-                            style={[
-                                styles.map,
-                                { alignItems: "center", justifyContent: "center", backgroundColor: "#E5E7EB" },
-                            ]}
-                        >
-                            <Feather name="map-pin" size={32} color="#373840" />
-                            <Text>Localização indisponível</Text>
-                        </View>
+                        <Marker id="establishment-marker" lngLat={[longitude, latitude]}>
+                            <View style={styles.maker}>
+                                <Feather name="map-pin" size={20} color="#FFFFFF" />
+                            </View>
+                        </Marker>
+                    </Map>
+                ) : (
+                    <View
+                        style={[
+                            styles.map,
+                            { alignItems: "center", justifyContent: "center", backgroundColor: "#E5E7EB" },
+                        ]}
+                    >
+                        <Feather name="map-pin" size={32} color="#373840" />
+                        <Text>Localização indisponível</Text>
+                    </View>
                 )}
 
                 <LinearGradient
-                colors={["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.7)", "#F3F0FA"]}
-                style={styles.gradient}
-                pointerEvents="none"
-                    />
+                    colors={["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.7)", "#F3F0FA"]}
+                    style={styles.gradient}
+                    pointerEvents="none"
+                />
 
-                    <Text style={styles.textMaps}>© OpenStreetMap contributors</Text>
+                <Text style={styles.textMaps}>© OpenStreetMap contributors</Text>
             </View>
 
             <View style={styles.content}>
@@ -128,26 +128,39 @@ export const EstablishmentDetails = () => {
                     )}
                 </View>
 
-                {place.photos.length > 0 && (
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={[
-                            styles.photosContainer,
-                            place.photos.length === 1 && styles.singlePhotoContainer,
-                        ]}>
-                        {place.photos.map((photo) => (
-                            <Image
-                                key={photo.id}
-                                source={{ uri: imageUrl(photo.url) }}
-                                style={[
-                                    styles.photo,
-                                    place.photos.length === 1 && styles.singlePhoto,
-                                ]}
-                            />
-                        ))}
-                    </ScrollView>
-                )}
+                {place.photos.map((photo) => (
+                    <View
+                        key={photo.id}
+                        style={{
+                            width: place.photos.length === 1 ? "100%" : 280,
+                            marginRight: 12,
+                        }}
+                    >
+                        <Image
+                            source={{ uri: imageUrl(photo.url) }}
+                            style={[
+                                styles.photo,
+                                place.photos.length === 1 && styles.singlePhoto,
+                            ]}
+                        />
+
+                        {!!photo.credit?.trim() && (
+                            <Text
+                                style={{
+                                    color: "#696969",
+                                    fontSize: 12,
+                                    fontWeight: "700",
+                                    textAlign: "center",
+                                    marginTop: 5,
+                                    marginBottom: 8,
+                                    width: "100%",
+                                }}
+                            >
+                                Imagem: {photo.credit}
+                            </Text>
+                        )}
+                    </View>
+                ))}
 
                 {sections
                     .filter((section) => section.text)
