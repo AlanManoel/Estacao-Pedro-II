@@ -44,6 +44,7 @@ export const EventDetails = () => {
         { title: "Dicas", text: event.tips },
     ];
 
+   
     const mainPhoto = event.photos?.[0];
 
     return (
@@ -98,7 +99,7 @@ export const EventDetails = () => {
                                     key={photo.id}
                                     style={{
                                         width: event.photos.length === 1 ? "100%" : 280,
-                                        marginRight: 12,
+                                        marginRight: 32,
                                     }}
                                 >
                                     <Image

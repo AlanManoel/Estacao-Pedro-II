@@ -272,7 +272,7 @@ export const AdminPhotos = () => {
                         <TextInput
                             value={credit}
                             onChangeText={setCredit}
-                            placeholder="Ex.: Imagem: Prefeitura de Pedro II"
+                            placeholder="Ex.: Prefeitura de Pedro II"
                             maxLength={120}
                             editable={!busy}
                             style={{
@@ -310,7 +310,7 @@ export const AdminPhotos = () => {
                         <TextInput
                             value={editingCredit}
                             onChangeText={setEditingCredit}
-                            placeholder="Ex.: Imagem: Prefeitura de Pedro II"
+                            placeholder="Ex.: Prefeitura de Pedro II"
                             maxLength={120}
                             editable={!busy}
                             style={{
